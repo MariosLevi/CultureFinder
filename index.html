@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<style>
+			body {
+			  background-color: rgb(212, 212, 212);
+			  font-family: system-ui;
+			}
+			.father {
+  			background-color: rgb(87, 113, 231);
+  			color: rgb(0, 0, 0);
+  			border: 2px solid black;
+  			margin: 20px;
+  			padding: 20px;
+			}
+			.mother {
+  			background-color: palevioletred;
+  			color: rgb(0, 0, 0);
+  			border: 2px solid black;
+  			margin: 20px;
+  			padding: 20px;
+			}
+			.you {
+  			background-color: rgb(142, 113, 167);
+  			color: rgb(0, 0, 0);
+  			border: 2px solid black;
+  			margin: 20px;
+  			padding: 20px;
+			}
+			.button5 {
+  			background-color: white;
+  			color: black;
+  			border: 5px solid #555555;
+			margin: 20px;
+  			padding: 20px;
+			}
+			.similar {
+  			border-radius: 25px;
+  			border: 5px solid #73AD21;
+  			padding: 20px;
+  			margin: auto;
+			width: 800px;
+  			height: 20px;
+			font-size: 20px;
+			}
+			.dissimilar {
+  			border-radius: 25px;
+  			border: 5px solid #e22727;
+  			padding: 20px;
+  			margin: auto;
+			width: 800px;
+  			height: 20px;
+			font-size: 20px;
+			}
+			</style>
+	</head>
+<body>
+		<h2 style="text-align:center">Similar Culture Finder</h2>
+		<hr style="border-top:2px solid #ccc;"/>
+	<div class="father">
+		<h3>Father is from:</h3>
+			<form>
+				<select id="fatherCountry" class="form-control"></select>
+			</form>
+		</div>
+	<div class="mother">
+		<h3>Mother is from:</h3>
+		<form>
+			<select id="motherCountry" class="form-control"></select>
+		</form>
+		</div>
+	<div class="you">
+		<h3>You:</h3>
+		<p>Choose the total number of years you lived in each country, after the age of 4.</p>
+		<form id="you">
+			<div id="you_info">
+				<div id=new_row_0> <select id="your_country_0" class="form-control"></select>
+					Years lived: <input id="year_0" type="number"><br></br></div>
+			</div>
+			<button onclick=addRow(event)>Add +</button>
+			<button onclick=removeRow(event)>Remove -</button>
+		</form>
+	</div>
+		
+		<button class="button5" onclick=results()>Submit</button>
+		<p class="similar" id="similar">Your top 3 most similar-cultured countries are: </p>
+		<p class="dissimilar" id="dissimilar">Your top 3 least similar-culture countries are: </p>
+<script src="/script.js"></script>	
+</body>	
+</html>
