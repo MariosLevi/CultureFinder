@@ -708,5 +708,5 @@ var similar =[];
 //display smallest 3, and largest 3
 
 
-//for countries in You, do the math here
+//for countries in You, do the math here 
 
