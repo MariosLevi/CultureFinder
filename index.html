@@ -1,93 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<style>
-			body {
-			  background-color: rgb(212, 212, 212);
-			  font-family: system-ui;
-			}
-			.father {
-  			background-color: rgb(87, 113, 231);
-  			color: rgb(0, 0, 0);
-  			border: 2px solid black;
-  			margin: 20px;
-  			padding: 20px;
-			}
-			.mother {
-  			background-color: palevioletred;
-  			color: rgb(0, 0, 0);
-  			border: 2px solid black;
-  			margin: 20px;
-  			padding: 20px;
-			}
-			.you {
-  			background-color: rgb(142, 113, 167);
-  			color: rgb(0, 0, 0);
-  			border: 2px solid black;
-  			margin: 20px;
-  			padding: 20px;
-			}
-			.button5 {
-  			background-color: white;
-  			color: black;
-  			border: 5px solid #555555;
-			margin: 20px;
-  			padding: 20px;
-			}
-			.similar {
-  			border-radius: 25px;
-  			border: 5px solid #73AD21;
-  			padding: 20px;
-  			margin: auto;
-			width: 800px;
-  			height: 20px;
-			font-size: 20px;
-			}
-			.dissimilar {
-  			border-radius: 25px;
-  			border: 5px solid #e22727;
-  			padding: 20px;
-  			margin: auto;
-			width: 800px;
-  			height: 20px;
-			font-size: 20px;
-			}
-			</style>
-	</head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Similar Culture Finder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f5f3;
+      color: #1a1a18;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .app {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 500;
+      color: #1a1a18;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6b6b68;
+      line-height: 1.6;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .header a {
+      color: #185FA5;
+      text-decoration: none;
+    }
+
+    .header a:hover { text-decoration: underline; }
+
+    hr {
+      border: none;
+      border-top: 0.5px solid rgba(0,0,0,0.12);
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 0.5px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .icon-blue  { background: #E6F1FB; color: #185FA5; }
+    .icon-pink  { background: #FBEAF0; color: #993556; }
+    .icon-purple { background: #EEEDFE; color: #534AB7; }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: #1a1a18;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: #6b6b68;
+      margin-top: 2px;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 0.5px solid rgba(0,0,0,0.25);
+      border-radius: 8px;
+      background: #f5f5f3;
+      color: #1a1a18;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b68' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+    }
+
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(56,139,253,0.3);
+      border-color: #185FA5;
+    }
+
+    .you-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .you-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .you-row select { flex: 1; }
+
+    .year-label {
+      font-size: 13px;
+      color: #6b6b68;
+      white-space: nowrap;
+    }
+
+    .you-row input {
+      width: 80px;
+      padding: 8px 10px;
+      border: 0.5px solid rgba(0,0,0,0.25);
+      border-radius: 8px;
+      background: #f5f5f3;
+      color: #1a1a18;
+      font-size: 14px;
+      font-family: inherit;
+      text-align: center;
+    }
+
+    .you-row input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(56,139,253,0.3);
+      border-color: #185FA5;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      border: 0.5px solid rgba(0,0,0,0.2);
+      border-radius: 8px;
+      background: transparent;
+      color: #6b6b68;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.1s;
+    }
+
+    .btn-sm:hover {
+      background: #f5f5f3;
+      color: #1a1a18;
+    }
+
+    .btn-primary {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #534AB7;
+      color: #EEEDFE;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover { background: #3C3489; }
+
+    .results {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .result-card {
+      background: #ffffff;
+      border: 0.5px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .result-card.similar   { border-left: 3px solid #1D9E75; }
+    .result-card.dissimilar { border-left: 3px solid #D85A30; }
+
+    .result-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .result-label.similar   { color: #0F6E56; }
+    .result-label.dissimilar { color: #993C1D; }
+
+    .result-countries {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .country-pill {
+      padding: 5px 14px;
+      border-radius: 99px;
+      font-size: 14px;
+    }
+
+    .country-pill.similar    { background: #E1F5EE; color: #085041; }
+    .country-pill.dissimilar { background: #FAECE7; color: #712B13; }
+
+    .privacy {
+      text-align: center;
+      font-size: 12px;
+      color: #9b9b98;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .video-section {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .video-section h3 {
+      font-size: 14px;
+      color: #6b6b68;
+      margin-bottom: 0.75rem;
+      font-weight: 400;
+    }
+
+    .video-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 0.5px solid rgba(0,0,0,0.12);
+    }
+
+    @media (max-width: 500px) {
+      .you-row { flex-wrap: wrap; }
+      .you-row select { flex: 1 1 100%; }
+    }
+  </style>
+</head>
 <body>
-		<h2 style="text-align:center">Similar Culture Finder</h2>
-		<hr style="border-top:2px solid #ccc;"/>
-	<h4 style="text-align:center;">All data and calculations are made based on <a href="https://en.wikipedia.org/wiki/Hofstede%27s_cultural_dimensions_theory"> Hofstede's cultural dimensions theory</a>. The similarity is found by calculating the weighted averages for you, and then calculating the Euclidian distance between your values and all countries.</h4>
-	<div class="father">
-		<h3>Father is from:</h3>
-			<form>
-				<select id="fatherCountry" class="form-control"></select>
-			</form>
-		</div>
-	<div class="mother">
-		<h3>Mother is from:</h3>
-		<form>
-			<select id="motherCountry" class="form-control"></select>
-		</form>
-		</div>
-	<div class="you">
-		<h3>You:</h3>
-		<p>Choose the total number of years you lived in each country, after the age of 4.</p>
-		<form id="you">
-			<div id="you_info">
-				<div id=new_row_0> <select id="your_country_0" class="form-control"></select>
-					Years lived: <input id="year_0" type="number"><br></br></div>
-			</div>
-			<button onclick=addRow(event)>Add +</button>
-			<button onclick=removeRow(event)>Remove -</button>
-		</form>
-	</div>
-		
-		<button class="button5" onclick=results()>Submit</button>
-		<p class="similar" id="similar">Your top 3 most similar-cultured countries are: </p>
-		<p class="dissimilar" id="dissimilar">Your top 3 least similar-culture countries are: </p>
-	<h5 style="text-align:center;">Privacy Policy: calculations are done purely on the client side, and no data is stored or collected.</h5>
-<script async src="script.js"></script>
-	<iframe width="560" height="315" src="https://www.youtube.com/embed/eT8Rx-4dgkU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</body>	
+<div class="app">
+  <div class="header">
+    <h1>Similar Culture Finder</h1>
+    <p>Calculations are based on <a href="https://en.wikipedia.org/wiki/Hofstede%27s_cultural_dimensions_theory" target="_blank">Hofstede's cultural dimensions theory</a>. Similarity is computed as the Euclidean distance between your weighted cultural values and each country.</p>
+  </div>
+  <hr>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-blue"><i class="ti ti-user"></i></div>
+      <div>
+        <div class="card-title">Father</div>
+        <div class="card-subtitle">Select country of origin</div>
+      </div>
+    </div>
+    <select id="fatherCountry"></select>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-pink"><i class="ti ti-user"></i></div>
+      <div>
+        <div class="card-title">Mother</div>
+        <div class="card-subtitle">Select country of origin</div>
+      </div>
+    </div>
+    <select id="motherCountry"></select>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-purple"><i class="ti ti-map-pin"></i></div>
+      <div>
+        <div class="card-title">You</div>
+        <div class="card-subtitle">Years lived in each country (after age 4)</div>
+      </div>
+    </div>
+    <div class="you-rows" id="you_info">
+      <div class="you-row" id="new_row_0">
+        <select id="your_country_0"></select>
+        <span class="year-label">Years:</span>
+        <input id="year_0" type="number" min="0" placeholder="0">
+      </div>
+    </div>
+    <div class="row-actions">
+      <button class="btn-sm" onclick="addRow(event)"><i class="ti ti-plus"></i> Add country</button>
+      <button class="btn-sm" onclick="removeRow(event)"><i class="ti ti-minus"></i> Remove</button>
+    </div>
+  </div>
+
+  <button class="btn-primary" onclick="results()">Find my cultural matches</button>
+
+  <div class="results" id="results_section" style="display:none">
+    <div class="result-card similar">
+      <div class="result-label similar">Most similar cultures</div>
+      <div class="result-countries" id="similar_results"></div>
+    </div>
+    <div class="result-card dissimilar">
+      <div class="result-label dissimilar">Most different cultures</div>
+      <div class="result-countries" id="dissimilar_results"></div>
+    </div>
+  </div>
+
+  <div class="privacy">
+    <i class="ti ti-lock"></i>
+    All calculations happen in your browser — no data is stored or collected.
+  </div>
+
+  <div class="video-section">
+    <h3>Learn more about Hofstede's model</h3>
+    <div class="video-wrapper">
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/eT8Rx-4dgkU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+var arrays = {"Africa East":{"pdi":64,"idv":27,"mas":41,"uai":52,"ltowvs":32,"ivr":40},"Africa West":{"pdi":77,"idv":20,"mas":46,"uai":54,"ltowvs":9,"ivr":78},"Arab countries":{"pdi":80,"idv":38,"mas":53,"uai":68,"ltowvs":23,"ivr":34},"Argentina":{"pdi":49,"idv":46,"mas":56,"uai":86,"ltowvs":20,"ivr":62},"Australia":{"pdi":38,"idv":90,"mas":61,"uai":51,"ltowvs":21,"ivr":71},"Austria":{"pdi":11,"idv":55,"mas":79,"uai":70,"ltowvs":60,"ivr":63},"Bangladesh":{"pdi":80,"idv":20,"mas":55,"uai":60,"ltowvs":47,"ivr":20},"Belgium":{"pdi":65,"idv":75,"mas":54,"uai":94,"ltowvs":82,"ivr":57},"Brazil":{"pdi":69,"idv":38,"mas":49,"uai":76,"ltowvs":44,"ivr":59},"Bulgaria":{"pdi":70,"idv":30,"mas":40,"uai":85,"ltowvs":69,"ivr":16},"Canada":{"pdi":39,"idv":80,"mas":52,"uai":48,"ltowvs":36,"ivr":68},"Chile":{"pdi":63,"idv":23,"mas":28,"uai":86,"ltowvs":31,"ivr":68},"China":{"pdi":80,"idv":20,"mas":66,"uai":30,"ltowvs":87,"ivr":24},"Colombia":{"pdi":67,"idv":13,"mas":64,"uai":80,"ltowvs":13,"ivr":83},"Croatia":{"pdi":73,"idv":33,"mas":40,"uai":80,"ltowvs":58,"ivr":33},"Czech Rep":{"pdi":57,"idv":58,"mas":57,"uai":74,"ltowvs":70,"ivr":29},"Denmark":{"pdi":18,"idv":74,"mas":16,"uai":23,"ltowvs":35,"ivr":70},"Ecuador":{"pdi":78,"idv":8,"mas":63,"uai":67,"ltowvs":13,"ivr":54},"El Salvador":{"pdi":66,"idv":19,"mas":40,"uai":94,"ltowvs":20,"ivr":89},"Estonia":{"pdi":40,"idv":60,"mas":30,"uai":60,"ltowvs":82,"ivr":16},"Finland":{"pdi":33,"idv":63,"mas":26,"uai":59,"ltowvs":38,"ivr":57},"France":{"pdi":68,"idv":71,"mas":43,"uai":86,"ltowvs":63,"ivr":48},"Germany":{"pdi":35,"idv":67,"mas":66,"uai":65,"ltowvs":83,"ivr":40},"Great Britain":{"pdi":35,"idv":89,"mas":66,"uai":35,"ltowvs":51,"ivr":69},"Greece":{"pdi":60,"idv":35,"mas":57,"uai":112,"ltowvs":45,"ivr":50},"Guatemala":{"pdi":95,"idv":6,"mas":37,"uai":101,"ltowvs":13,"ivr":54},"Hong Kong":{"pdi":68,"idv":25,"mas":57,"uai":29,"ltowvs":61,"ivr":17},"Hungary":{"pdi":46,"idv":80,"mas":88,"uai":82,"ltowvs":58,"ivr":31},"India":{"pdi":77,"idv":48,"mas":56,"uai":40,"ltowvs":51,"ivr":26},"Indonesia":{"pdi":78,"idv":14,"mas":46,"uai":48,"ltowvs":62,"ivr":38},"Iran":{"pdi":58,"idv":41,"mas":43,"uai":59,"ltowvs":14,"ivr":40},"Ireland":{"pdi":28,"idv":70,"mas":68,"uai":35,"ltowvs":24,"ivr":65},"Israel":{"pdi":13,"idv":54,"mas":47,"uai":81,"ltowvs":38,"ivr":50},"Italy":{"pdi":50,"idv":76,"mas":70,"uai":75,"ltowvs":61,"ivr":30},"Jamaica":{"pdi":45,"idv":39,"mas":68,"uai":13,"ltowvs":13,"ivr":80},"Japan":{"pdi":54,"idv":46,"mas":95,"uai":92,"ltowvs":88,"ivr":42},"South Korea":{"pdi":60,"idv":18,"mas":39,"uai":85,"ltowvs":100,"ivr":29},"Latvia":{"pdi":44,"idv":70,"mas":9,"uai":63,"ltowvs":69,"ivr":13},"Lithuania":{"pdi":42,"idv":60,"mas":19,"uai":65,"ltowvs":82,"ivr":16},"Luxembourg":{"pdi":40,"idv":60,"mas":50,"uai":70,"ltowvs":64,"ivr":56},"Malaysia":{"pdi":104,"idv":26,"mas":50,"uai":36,"ltowvs":41,"ivr":57},"Malta":{"pdi":56,"idv":59,"mas":47,"uai":96,"ltowvs":47,"ivr":66},"Mexico":{"pdi":81,"idv":30,"mas":69,"uai":82,"ltowvs":24,"ivr":97},"Morocco":{"pdi":70,"idv":46,"mas":53,"uai":68,"ltowvs":14,"ivr":25},"Netherlands":{"pdi":38,"idv":80,"mas":14,"uai":53,"ltowvs":67,"ivr":68},"New Zealand":{"pdi":22,"idv":79,"mas":58,"uai":49,"ltowvs":33,"ivr":75},"Norway":{"pdi":31,"idv":69,"mas":8,"uai":50,"ltowvs":35,"ivr":55},"Pakistan":{"pdi":55,"idv":14,"mas":50,"uai":70,"ltowvs":50,"ivr":0},"Panama":{"pdi":95,"idv":11,"mas":44,"uai":86,"ltowvs":13,"ivr":54},"Peru":{"pdi":64,"idv":16,"mas":42,"uai":87,"ltowvs":25,"ivr":46},"Philippines":{"pdi":94,"idv":32,"mas":64,"uai":44,"ltowvs":27,"ivr":42},"Poland":{"pdi":68,"idv":60,"mas":64,"uai":93,"ltowvs":38,"ivr":29},"Portugal":{"pdi":63,"idv":27,"mas":31,"uai":104,"ltowvs":28,"ivr":33},"Romania":{"pdi":90,"idv":30,"mas":42,"uai":90,"ltowvs":52,"ivr":20},"Russia":{"pdi":93,"idv":39,"mas":36,"uai":95,"ltowvs":81,"ivr":20},"Serbia":{"pdi":86,"idv":25,"mas":43,"uai":92,"ltowvs":52,"ivr":28},"Singapore":{"pdi":74,"idv":20,"mas":48,"uai":8,"ltowvs":72,"ivr":46},"Slovakia":{"pdi":104,"idv":52,"mas":85,"uai":51,"ltowvs":77,"ivr":28},"Slovenia":{"pdi":71,"idv":27,"mas":19,"uai":88,"ltowvs":49,"ivr":48},"Spain":{"pdi":57,"idv":51,"mas":42,"uai":86,"ltowvs":48,"ivr":44},"Sweden":{"pdi":31,"idv":71,"mas":5,"uai":29,"ltowvs":53,"ivr":78},"Switzerland":{"pdi":34,"idv":68,"mas":70,"uai":58,"ltowvs":74,"ivr":66},"Taiwan":{"pdi":58,"idv":17,"mas":45,"uai":69,"ltowvs":93,"ivr":49},"Thailand":{"pdi":64,"idv":20,"mas":34,"uai":64,"ltowvs":32,"ivr":45},"Trinidad and Tobago":{"pdi":47,"idv":16,"mas":58,"uai":55,"ltowvs":13,"ivr":80},"Turkey":{"pdi":66,"idv":37,"mas":45,"uai":85,"ltowvs":46,"ivr":49},"U.S.A.":{"pdi":40,"idv":91,"mas":62,"uai":46,"ltowvs":26,"ivr":68},"Uruguay":{"pdi":61,"idv":36,"mas":38,"uai":100,"ltowvs":26,"ivr":53},"Venezuela":{"pdi":81,"idv":12,"mas":73,"uai":76,"ltowvs":16,"ivr":100},"Vietnam":{"pdi":70,"idv":20,"mas":40,"uai":30,"ltowvs":57,"ivr":35}};
+
+var HTML_OPTIONS = Object.keys(arrays).map(k => `<option>${k}</option>`).join('');
+document.getElementById('fatherCountry').innerHTML = HTML_OPTIONS;
+document.getElementById('motherCountry').innerHTML = HTML_OPTIONS;
+document.getElementById('your_country_0').innerHTML = HTML_OPTIONS;
+
+var rows = 0;
+
+function addRow(event) {
+  if (event) event.preventDefault();
+  rows++;
+  var div = document.createElement('div');
+  div.className = 'you-row';
+  div.id = 'new_row_' + rows;
+  div.innerHTML = `<select id="your_country_${rows}">${HTML_OPTIONS}</select><span class="year-label">Years:</span><input id="year_${rows}" type="number" min="0" placeholder="0">`;
+  document.getElementById('you_info').appendChild(div);
+}
+
+function removeRow(event) {
+  if (event) event.preventDefault();
+  if (rows < 1) return;
+  document.getElementById('new_row_' + rows).remove();
+  rows--;
+}
+
+function results() {
+  var dad = document.getElementById('fatherCountry').value;
+  var mom = document.getElementById('motherCountry').value;
+  var pp = ['pdi','idv','mas','uai','ltowvs','ivr'];
+  var parents = {};
+  pp.forEach(d => parents[d] = (arrays[dad][d] + arrays[mom][d]) / 2);
+
+  var age = 0;
+  for (var i = 0; i <= rows; i++) {
+    age += parseInt(document.getElementById('year_' + i).value) || 0;
+  }
+  if (age === 0) { alert('Please enter at least one year lived.'); return; }
+
+  var weighted = {}; pp.forEach(d => weighted[d] = 0);
+  for (var i = 0; i <= rows; i++) {
+    var w = (parseInt(document.getElementById('year_' + i).value) || 0) / age;
+    var c = document.getElementById('your_country_' + i).value;
+    pp.forEach(d => weighted[d] += w * arrays[c][d]);
+  }
+
+  var final = {}; pp.forEach(d => final[d] = (weighted[d] + parents[d]) / 2);
+
+  var scores = Object.keys(arrays).map(function(c) {
+    var dist = Math.sqrt(pp.reduce((sum, d) => sum + Math.pow(arrays[c][d] - final[d], 2), 0));
+    return [c, dist];
+  });
+
+  scores.sort((a, b) => a[1] - b[1]);
+  var similar = scores.slice(0, 3).map(x => x[0]);
+  scores.sort((a, b) => b[1] - a[1]);
+  var dissimilar = scores.slice(0, 3).map(x => x[0]);
+
+  document.getElementById('similar_results').innerHTML = similar.map(c => `<span class="country-pill similar">${c}</span>`).join('');
+  document.getElementById('dissimilar_results').innerHTML = dissimilar.map(c => `<span class="country-pill dissimilar">${c}</span>`).join('');
+  document.getElementById('results_section').style.display = 'flex';
+  document.getElementById('results_section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+</body>
 </html>
